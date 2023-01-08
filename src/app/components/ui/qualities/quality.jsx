@@ -3,11 +3,9 @@ import React from "react";
 import { useQuality } from "../../../hooks/useQuality";
 
 const Quality = ({ id }) => {
-    const { isLoading, getQuality } = useQuality();
-    if (!isLoading) {
-        const { color, name } = getQuality(id);
-        return <span className={"badge m-1 bg-" + color}>{name}</span>;
-    } else return "Loading...";
+    const { getQuality } = useQuality();
+    const { color, name } = getQuality(id);
+    return <span className={"badge m-1 bg-" + color}>{name}</span>;
 };
 Quality.propTypes = {
     id: PropTypes.string.isRequired
