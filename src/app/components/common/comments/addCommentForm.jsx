@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import TextAreaField from "../form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../../../store/users";
+import { useParams } from "react-router-dom";
 
 const AddCommentForm = ({ onSubmit }) => {
+    const { userId } = useParams();
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
+    const currentUserid = useSelector(getCurrentUserId());
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -33,7 +38,7 @@ const AddCommentForm = ({ onSubmit }) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        onSubmit(data);
+        onSubmit(data, userId, currentUserid);
         clearForm();
     };
     return (
@@ -55,7 +60,9 @@ const AddCommentForm = ({ onSubmit }) => {
     );
 };
 AddCommentForm.propTypes = {
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    userId: PropTypes.string,
+    currentUserId: PropTypes.string
 };
 
 export default AddCommentForm;
